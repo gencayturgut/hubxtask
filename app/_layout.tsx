@@ -3,12 +3,12 @@ import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useColorScheme } from '@/components/useColorScheme';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import { RootState, store } from './redux/state/store';
-import { completeOnboarding } from './redux/onBoardingReducer';  // Import action from Redux
+import { completeOnboarding } from './redux/onBoardingReducer'; 
 
 SplashScreen.preventAutoHideAsync();
 
@@ -29,7 +29,7 @@ export default function RootLayout() {
   }, [fontsLoaded]);
 
   if (!fontsLoaded) {
-    return null; // Return null to prevent UI from rendering before fonts are loaded
+    return null; 
   }
 
   return (
@@ -46,7 +46,6 @@ function RootLayoutNav() {
 
   useEffect(() => {
     checkOnboardingStatus();
-    console.log('Onboarding status checked', isOnboardingComplete);
 
   }, [isOnboardingComplete]);
 

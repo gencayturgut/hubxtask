@@ -35,7 +35,6 @@ const categorySlice = createSlice({
 
 export const fetchCategories = createAsyncThunk( 'categories/fetchCategories', async () => {
     const response = await fetch('https://dummy-api-jtg6bessta-ey.a.run.app/getCategories');
-    console.log("response", response);
     return response.json();
 });
 

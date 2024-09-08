@@ -226,7 +226,7 @@
       borderRadius: 20,
       paddingHorizontal: 10,
       paddingVertical: 5,
-      zIndex: 1, // Ensure the badge is above other content
+      zIndex: 1, 
     },
     saveBadgeText: {
       color: '#fff',

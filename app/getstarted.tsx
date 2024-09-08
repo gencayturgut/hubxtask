@@ -10,8 +10,8 @@ import {
 } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "./redux/state/store"; // Import RootState from your Redux store
-import { completeOnboarding } from "./redux/onBoardingReducer"; // Import the action
+import { RootState } from "./redux/state/store";
+import { completeOnboarding } from "./redux/onBoardingReducer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const { width } = Dimensions.get("window");
@@ -21,7 +21,7 @@ export default function GetStartedScreen() {
   const dispatch = useDispatch();
   const onboardingCompleted = useSelector(
     (state: RootState) => state.onboarding.completed
-  ); // Access Redux state
+  ); 
   const [currentHeader, setCurrentHeader] = useState(0);
 
   const carouselItems = [
@@ -31,7 +31,7 @@ export default function GetStartedScreen() {
 
   const handleOnboardingComplete = async () => {
     try {
-      await AsyncStorage.setItem("@onboarding_complete", "true"); // Save locally
+      await AsyncStorage.setItem("@onboarding_complete", "true");
       dispatch(completeOnboarding()); 
       router.push("/homepage"); 
     } catch (error) {
