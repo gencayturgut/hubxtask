@@ -18,7 +18,6 @@ const Questions = () => {
 
   useEffect(() => {
     dispatch(getQuestionsAsync());
-    console.log("Questions: ", questions);
   }, [dispatch]);
 
   if (status === "loading") return <Text>Loading...</Text>;

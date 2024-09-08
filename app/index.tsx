@@ -4,7 +4,7 @@ import EditScreenInfo from '@/components/EditScreenInfo';
 import { Text, View } from '@/components/Themed';
 import GetStartedScreen from './getstarted';
 
-export default function TabOneScreen() {
+export default function Index() {
   return (
     <View style={styles.container}>
       <GetStartedScreen />

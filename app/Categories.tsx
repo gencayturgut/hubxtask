@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Image, FlatList, Dimensions, ActivityIndicator } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-import { AppDispatch, RootState } from "../redux/state/store";
-import { fetchCategories } from "../redux/category/categorySlice";
-import { Category } from "../redux/types";
+import { AppDispatch, RootState } from "./redux/state/store";
+import { fetchCategories } from "./redux/category/categorySlice";
+import { Category } from "./redux/types";
 
 const { width } = Dimensions.get("window");
 

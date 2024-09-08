@@ -9,8 +9,8 @@ import {
 } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Ionicons } from "@expo/vector-icons"; // Using Ionicons from Expo Icons
-import Categories from "./CategoryPages/Categories";
+import { Ionicons } from "@expo/vector-icons"; 
+import Categories from "./Categories";
 import Questions from "./Questions";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
