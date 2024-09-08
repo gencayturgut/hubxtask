@@ -3,56 +3,82 @@ import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
-
+import { useEffect, useState } from 'react';
 import { useColorScheme } from '@/components/useColorScheme';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Provider, useDispatch, useSelector } from 'react-redux';
+import { RootState, store } from './redux/state/store';
+import { completeOnboarding } from './redux/onBoardingReducer';  // Import action from Redux
 
-export {
-  // Catch any errors thrown by the Layout component.
-  ErrorBoundary,
-} from 'expo-router';
-
-export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: '(tabs)',
-};
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const [loaded, error] = useFonts({
+  const [fontsLoaded, error] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
     ...FontAwesome.font,
   });
 
-  // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
     if (error) throw error;
   }, [error]);
 
   useEffect(() => {
-    if (loaded) {
+    if (fontsLoaded) {
       SplashScreen.hideAsync();
     }
-  }, [loaded]);
+  }, [fontsLoaded]);
 
-  if (!loaded) {
-    return null;
+  if (!fontsLoaded) {
+    return null; // Return null to prevent UI from rendering before fonts are loaded
   }
 
-  return <RootLayoutNav />;
+  return (
+    <Provider store={store}>
+      <RootLayoutNav />
+    </Provider>
+  );
 }
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
+  const isOnboardingComplete = useSelector((state: RootState) => state.onboarding.completed);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    checkOnboardingStatus();
+    console.log('Onboarding status checked', isOnboardingComplete);
+
+  }, [isOnboardingComplete]);
+
+  const checkOnboardingStatus = async () => {
+    try {
+      const value = await AsyncStorage.getItem('@onboarding_complete');
+      if (value === 'true') {
+        dispatch(completeOnboarding());  // Dispatch Redux action if onboarding is complete
+      }
+    } catch (error) {
+      console.error('Error checking onboarding status:', error);
+    }
+  };
+
+  if (isOnboardingComplete === undefined) {
+    return null;
+  }
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+        {isOnboardingComplete && (
+          
+            <Stack.Screen name="paywall" options={{ headerShown: false }} />
+          )}
+          {(isOnboardingComplete===true) && (
+          <Stack.Screen name="homepage" options={{ headerShown: false }} />  
+        )}
+          {isOnboardingComplete && (
+          <Stack.Screen name="index" options={{ headerShown: false }} />
+        )}
+        
       </Stack>
     </ThemeProvider>
   );
